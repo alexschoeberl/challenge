@@ -1,5 +1,7 @@
+#! /usr/bin/env python3
+
 from catalogue import database
 
 if __name__ == '__main__':
-	database.drop_all()
-	database.create_all()
+    database.drop_all()
+    database.create_all()
