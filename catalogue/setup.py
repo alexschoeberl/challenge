@@ -8,14 +8,9 @@ from flask_sqlalchemy import SQLAlchemy
 def application():
     """Creates and sets up the flask application object"""
     app = Flask('catalogue')
-    app.config['TEMPLATES_AUTO_RELOAD'] = True  # TODO: delete
     creds = f'{getenv("DBUSER")}:{getenv("DBPSSWD")}'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{creds}@127.0.0.1:5432/catalogue'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    @app.route('/test')  # TODO: delete
-    def template_test():
-        return render_template('test.html')
 
     return app
 
