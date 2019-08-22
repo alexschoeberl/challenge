@@ -23,7 +23,10 @@ class BookList(Resource):
         body = Book.parse_reqest()
         book = BookModel(
             title=body['title'].strip(),
-            author=body['author'].strip()
+            author=body['author'].strip(),
+            editor=body['editor'].strip(),
+            publisher=body['publisher'].strip(),
+            language=body['language'].strip()
         )
         db.session.add(book)
         preference = PreferenceModel(book=book)
@@ -59,6 +62,9 @@ class Book(Resource):
             Book.parser = reqparse.RequestParser()
             Book.parser.add_argument('title', type=str, location='json', required=True)
             Book.parser.add_argument('author', type=str, location='json', default="")
+            Book.parser.add_argument('editor', type=str, location='json', default="")
+            Book.parser.add_argument('publisher', type=str, location='json', default="")
+            Book.parser.add_argument('language', type=str, location='json', default="")
         return Book.parser.parse_args(strict=True)
 
 

@@ -7,19 +7,19 @@ class Book(db.Model):
     idf = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
+    editor = db.Column(db.String, nullable=False)
+    publisher = db.Column(db.String, nullable=False)
+    language = db.Column(db.String, nullable=False)
 
     def serialize(self):
         return {
             'idf': self.idf,
             'title': self.title,
-            'author': self.author
+            'author': self.author,
+            'editor': self.editor,
+            'publisher': self.publisher,
+            'language': self.language
         }
-    
-    def update(self, title=None, author=None):
-        if title is not None:
-            self.title = title
-        if author is not None:
-            self.author = author
 
     def __repr__(self):
         return f'<Book {self.idf}>'
