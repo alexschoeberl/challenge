@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Catalogue Api Test</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<style>
+		body {width: 500px; margin: 0 auto; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif}
+	</style>
+</head>
+
+<body>
+	<section id="control"><input type="text" id="arguments"><br><br>
+			<input type="text" id="book-input"><br>
+			<button type="button" onclick="getBooks()">Get Books</button><br>
+			<button type="button" onclick="addBook()">Post Book</button><br>
+			<button type="button" onclick="deleteBook()">Delete Book</button><br>
+			<button type="button" onclick="getBook()">Get Book</button><br>
+
+			<input type="text" id="word-input"><br>
+			<button type="button" onclick="getWords()">Get Words</button><br>
+			<button type="button" onclick="addWord()">Post Word</button><br>
+			<button type="button" onclick="deleteWord()">Delete Word</button><br>
+			<button type="button" onclick="getWord()">Get Word</button><br>
+
+			<input type="text" id="char-min">
+			<input type="text" id="char-max"><br>
+			<button type="button" onclick="putPref()">Put Pref</button><br>
+			<button type="button" onclick="getPref()">Get Pref</button><br>
+	</section>
+
+	<script>
+		var url = window.location.origin;
+		var urlBook = url + '/api/book';
+
+		$.postJSON = function(url, data, callback) {
+			return jQuery.ajax({
+				'type': 'POST',
+				'url': url,
+				'contentType': 'application/json; charset=utf-8',
+				'data': JSON.stringify(data),
+				'dataType': 'json',
+				'success': callback
+			});
+		};
+
+		$.putJSON = function(url, data, callback) {
+			return jQuery.ajax({
+				'type': 'PUT',
+				'url': url,
+				'contentType': 'application/json; charset=utf-8',
+				'data': JSON.stringify(data),
+				'dataType': 'json',
+				'success': callback
+			});
+		};
+
+		function getBook() {
+			urlBookGet = urlBook + '/' + $('#book-input').val();
+			$.get(urlBookGet);
+		}
+
+		function getBooks() {
+			$.get(urlBook + $('#arguments').val());
+		}
+
+		function addBook() {
+			var data = {title: 'Rudolf', author: 'Mark Twain'};
+			$.postJSON(urlBook, data);
+		}
+
+		function deleteBook() {
+			urlBookDelete = urlBook + '/' + $('#book-input').val();
+			$.ajax({url: urlBookDelete, type: 'DELETE'});
+		}
+
+		function getWord() {
+			urlWordGet = urlBook + '/' + $('#book-input').val() + '/vocabulary/' + $('#word-input').val();
+			$.get(urlWordGet);
+		}
+
+		function getWords() {
+			urlWords = urlBook + '/' + $('#book-input').val() + '/vocabulary';
+			$.get(urlWords);
+		}
+
+		function addWord() {
+			urlWords = urlBook + '/' + $('#book-input').val() + '/vocabulary';
+			var data = {abstract: $('#word-input').val()};
+			$.postJSON(urlWords, data);
+		}
+
+		function deleteWord() {
+			urlWordDelete = urlBook + '/' + $('#book-input').val() + '/vocabulary/' + $('#word-input').val();
+			$.ajax({url: urlWordDelete, type: 'DELETE'});
+		}
+
+		function getPref() {
+			urlPrefGet = urlBook + '/' + $('#book-input').val() + '/preference';
+			$.get(urlPrefGet);
+		}
+
+		function putPref() {
+			urlPrefGet = urlBook + '/' + $('#book-input').val() + '/preference';
+			var data = {char_min: $('#char-min').val(), char_max: $('#char-max').val()};
+			$.putJSON(urlPrefGet, data);
+		}
+	</script>
+</body>
+
+</html>
