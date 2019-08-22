@@ -7,10 +7,10 @@ class Book(db.Model):
 
     idf = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    author = db.Column(db.String, nullable=False)
-    editor = db.Column(db.String, nullable=False)
-    publisher = db.Column(db.String, nullable=False)
-    language = db.Column(db.String, nullable=False)
+    author = db.Column(db.String, nullable=True)
+    editor = db.Column(db.String, nullable=True)
+    publisher = db.Column(db.String, nullable=True)
+    language = db.Column(db.String, nullable=True)
 
     def serialize(self):
         return {
