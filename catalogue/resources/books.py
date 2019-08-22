@@ -7,9 +7,11 @@ from catalogue.models.preferences import Preference as PreferenceModel
 
 
 class BookList(Resource):
+    """This class provides access to the book list resource"""
     parser = None
 
     def get(self):
+        """Returns a list of all books or a list filtered by a query string"""
         query = BookList.parse_query()
         if query:
             query = f'%{query}%'
@@ -20,6 +22,7 @@ class BookList(Resource):
         return books, 200
 
     def post(self):
+        """Stores a new book in the database"""
         body = Book.parse_reqest()
         book = BookModel(
             title=body['title'].strip(),
@@ -44,13 +47,16 @@ class BookList(Resource):
 
 
 class Book(Resource):
+    """This class provides access to the book resource"""
     parser = None
 
     def get(self, idf):
+        """Returns a serialized book instance"""
         book = BookModel.query.get_or_404(idf)
         return serialize(book), 200
     
     def delete(self, idf):
+        """Deletes the specified book from the database"""
         book = BookModel.query.get_or_404(idf)
         db.session.delete(book)
         db.session.commit()
@@ -69,6 +75,7 @@ class Book(Resource):
 
 
 def serialize(book):
+    """Converts a book instance into a dictionary"""
     result = book.serialize()
     result['url'] = locate(book)
     result['preference'] = locate_preference(book)

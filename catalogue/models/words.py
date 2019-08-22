@@ -4,6 +4,7 @@ from catalogue import database as db
 
 
 class Word(db.Model):
+    """Database model for the words table"""
     __tablename__ = 'Words'
 
     key = db.Column(db.String, primary_key=True)

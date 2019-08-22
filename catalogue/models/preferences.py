@@ -2,6 +2,7 @@ from catalogue import database as db
 
 
 class Preference(db.Model):
+    """Database model for the preferences table"""
     __tablename__ = 'Preferences'
 
     book_idf = db.Column(db.Integer, db.ForeignKey('Books.idf'), primary_key=True)

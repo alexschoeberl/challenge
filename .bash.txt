@@ -1,0 +1,1 @@
+cmd /V /C "set DBUSER=datac&& set DBPSSWD=\"\"&& python create_database.py"

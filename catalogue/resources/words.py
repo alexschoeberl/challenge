@@ -9,13 +9,19 @@ from catalogue.abstract import analyse_abstract, parse_abstract
 
 
 class WordList(Resource):
+    """This class provides access to the vocabolary resource"""
     def get(self, idf):
+        """Returns a list of all words associated with the specified book"""
         book = BookModel.query.get_or_404(idf)
         words = WordModel.query.filter_by(book_idf=book.idf).all()
         words = [serialize(word) for word in words]
         return words, 200
 
     def post(self, idf):
+        """
+        Stores words from the request body in the vocabulary.
+        Returns the most and least common words
+        """
         book = BookModel.query.get_or_404(idf)
         pref = PreferenceModel.query.get_or_404(book.idf)
         body = Word.parse_reqest()
@@ -38,15 +44,18 @@ class WordList(Resource):
 
 
 class Word(Resource):
+    """This class provides access to the word resource"""
     parser = None
 
     def get(self, idf, key):
+        """Returns a serialized word instance"""
         word = WordModel.query.get_or_404(key)
         if word.book_idf != idf:
             abort(404)
         return serialize(word), 200
     
     def delete(self, idf, key):
+        """Deletes the specified word from the database"""
         word = WordModel.query.get_or_404(key)
         if word.book_idf != idf:
             abort(404)
@@ -63,6 +72,7 @@ class Word(Resource):
 
 
 def serialize(word):
+    """Converts a word instance into a dictionary"""
     result = word.serialize()
     result['url'] = locate(word)
     result['book'] = locate_book(word.book)

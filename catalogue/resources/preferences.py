@@ -6,13 +6,19 @@ from catalogue.models.preferences import Preference as PreferenceModel
 
 
 class Preference(Resource):
+    """
+    This class provides access to the preference resource.
+    Preferences get created and deleted together with a book
+    """
     parser = None
 
     def get(self, idf):
+        """Returns a serialized preference instance"""
         preference = PreferenceModel.query.get_or_404(idf)
         return serialize(preference), 200
     
     def put(self, idf):
+        """Updates preference values in the database"""
         preference = PreferenceModel.query.get_or_404(idf)
         body = Preference.parse_reqest()
         if 'char_min' in body:
@@ -32,6 +38,7 @@ class Preference(Resource):
 
 
 def serialize(preference):
+    """Converts a preference instance into a dictionary"""
     result = preference.serialize()
     result['url'] = locate(preference)
     result['book'] = locate_book(preference.book)

@@ -2,6 +2,7 @@ from catalogue import database as db
 
 
 class Book(db.Model):
+    """Database model for the books table"""
     __tablename__ = 'Books'
 
     idf = db.Column(db.Integer, primary_key=True)

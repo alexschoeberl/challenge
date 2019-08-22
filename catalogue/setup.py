@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 def application():
+    """Creates and sets up the flask application object"""
     app = Flask('catalogue')
     app.config['TEMPLATES_AUTO_RELOAD'] = True  # TODO: delete
     creds = f'{getenv("DBUSER")}:{getenv("DBPSSWD")}'
@@ -20,11 +21,13 @@ def application():
 
 
 def database(application):
+    """Creates the database instance and connects to the database"""
     db = SQLAlchemy(application)
     return db
 
 
 def interface(application):
+    """Adds the resources to the application object"""
     from catalogue.resources.books import Book, BookList
     from catalogue.resources.words import Word, WordList
     from catalogue.resources.preferences import Preference
