@@ -1,3 +1,5 @@
+from os import getenv
+
 from flask import Flask, render_template
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -6,7 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 def application():
     app = Flask('catalogue')
     app.config['TEMPLATES_AUTO_RELOAD'] = True  # TODO: delete
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user1:a3uuR4L7@127.0.0.1:5432/catalogue'  # TODO: change
+    creds = f'{getenv("DBUSER")}:{getenv("DBPSSWD")}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{creds}@127.0.0.1:5432/catalogue'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     @app.route('/test')  # TODO: delete
