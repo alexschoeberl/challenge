@@ -44,4 +44,5 @@ The response will also be of this content type.
 - Testing
 - Management of time zones
 - Uppercase/lowercase processing for words
+- Add WSGI entry point
 - Type hints (optional)
